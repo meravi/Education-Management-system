@@ -1,24 +1,63 @@
-<?php 
+<?php
 include "../setting/config.php";
-session_start();
-if(!$_SESSION['meadmin'])
-{
-	header("location:index.php");
-}
-else
-{
-	$adminname = $_SESSION['meadmin'];
-	$meadmin_username = $ravi->meadmin_username($adminname);
-	$meadmin_username_display = $meadmin_username->fetch_assoc();
-	$meadmin_info= $meadmin_username_display['admin_username']; 
-	$t_staff_type = $meadmin_username_display['t_staff_type'];
-	$info = $ravi->teacher_info($adminname,$t_staff_type);
-	$info_display = $info->fetch_assoc();
-	
+
+app_session_start();
+
+if (empty($_SESSION['meadmin'])) {
+    app_redirect('index.php');
 }
 
+$adminname = $_SESSION['meadmin'];
+$meadmin_username = $ravi->meadmin_username($adminname);
+$meadmin_username_display = $meadmin_username ? $meadmin_username->fetch_assoc() : null;
 
+if (!$meadmin_username_display) {
+    app_redirect('logouts.php');
+}
 
+$meadmin_info = $meadmin_username_display['admin_username'];
+$t_staff_type = $meadmin_username_display['t_staff_type'];
+$info = $ravi->teacher_info($adminname, $t_staff_type);
+$info_display = $info ? $info->fetch_assoc() : null;
+
+if (!$info_display) {
+    $info_display = array(
+        't_fullname' => $meadmin_info,
+        't_email' => '',
+        't_address' => '',
+        't_contact' => '',
+        't_gender' => '',
+        't_dob' => '',
+        't_father' => '',
+        't_mother' => '',
+        't_qualification' => '',
+        't_username' => $meadmin_info,
+    );
+}
+
+$allowedPages = array(
+    'home1',
+    'student-information',
+    'add-student',
+    'teacher-information',
+    'teacher-edit',
+    'teacher-editnow',
+    'teacher-add',
+    'teacher-delete',
+    'teacher-del',
+    'general-information',
+    'edit-general-information',
+    'class-routine',
+    'add-table',
+);
+
+$currentRoute = app_get('ravi', 'home1');
+
+if (!in_array($currentRoute, $allowedPages, true)) {
+    $currentRoute = 'home1';
+}
+
+$_GET['ravi'] = $currentRoute;
 ?>
 <!--
 Author: W3layouts
@@ -85,20 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 				<!-- //header-ends -->
 
-				<?php 
-				
-				
-				
-				$homepage = "home1";
-				if(isset($_GET['ravi']))
-				{
-					$homepage = $_GET['ravi'];
-				}
-				include $homepage.".php";
-				
-				
-						
-				?>
+				<?php include __DIR__ . '/' . $currentRoute . '.php'; ?>
 				
 				
 				
@@ -116,19 +142,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--/sidebar-menu-->
 		<div class="sidebar-menu">
 			<header class="logo">
-				<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="index.html"> <span id="logo"> <h1>MeRavi</h1></span> 
+				<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="home.php"> <span id="logo"> <h1>MeRavi</h1></span> 
 					<!--<img id="logo" src="" alt="Logo"/>--> 
 				  </a>
 			</header>
 			<div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
 			<!--/down-->
 			<div class="down">
-				<a href="index.html"><img src="images/admin.jpg"></a>
-				<a href="index.php"><span class=" name-caret"><?php echo $info_display['t_fullname']; ?></span></a>
+				<a href="home.php"><img src="images/admin.jpg" alt="Admin"></a>
+				<a href="home.php"><span class=" name-caret"><?php echo e($info_display['t_fullname']); ?></span></a>
 				<p>System Administrator in Company</p>
 				<ul>
-					<li><a class="tooltips" href="index.html"><span>Profile</span><i class="lnr lnr-user"></i></a></li>
-					<li><a class="tooltips" href="index.html"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>
+					<li><a class="tooltips" href="home.php"><span>Profile</span><i class="lnr lnr-user"></i></a></li>
+					<li><a class="tooltips" href="home.php?ravi=edit-general-information"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>
 					<li><a class="tooltips" href="logouts.php"><span>Log out</span><i class="lnr lnr-power-switch"></i></a></li>
 				</ul>
 			</div>

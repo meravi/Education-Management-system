@@ -1,20 +1,19 @@
-<?php 
+<?php
 include "../setting/config.php";
- session_start();
-if(!$_SESSION['st_user'])
-{
-	
-	header("location:index.php");
-}
-else
-{
-	$st_username = $_SESSION['st_user'];
-	$st_name = $ravi->student_info_select($st_username);
-	
-	$student_name_display = $st_name->fetch_assoc();
+
+app_session_start();
+
+if (empty($_SESSION['st_user'])) {
+    app_redirect('index.php');
 }
 
+$st_username = $_SESSION['st_user'];
+$st_name = $ravi->student_info_select($st_username);
+$student_name_display = $st_name ? $st_name->fetch_assoc() : null;
 
+if (!$student_name_display) {
+    app_redirect('logouts.php');
+}
 ?>
 <!--
 Author: W3layouts
@@ -87,7 +86,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="tab-inner">
 							<div id="tabs" class="tabs">
 								<h2 class="inner-tittle">Welcome,
-									<?php echo ucfirst($student_name_display['st_fullname']); ?> </h2>
+									<?php echo e(ucfirst($student_name_display['st_fullname'])); ?> </h2>
 								<div class="graph">
 									<nav>
 										<ul>
@@ -103,19 +102,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											<div class="mediabox">
 												<strong>Personal Information</strong>
 												<p> <strong>WELCOME</strong>,
-													<?php echo ucfirst($student_name_display['st_fullname']); ?>
+													<?php echo e(ucfirst($student_name_display['st_fullname'])); ?>
 												</p>
 												<p><strong>standard: </strong>
-													<?php echo ucfirst($student_name_display['st_grade']); ?>
+													<?php echo e(ucfirst($student_name_display['st_grade'])); ?>
 												</p>
 												<p><strong>Roll No: </strong>
-													<?php echo ucfirst($student_name_display['roll_no']); ?>
+													<?php echo e(ucfirst($student_name_display['roll_no'])); ?>
 												</p>
 												<p><strong>Gender: </strong>
-													<?php echo ucfirst($student_name_display['st_gender']); ?>
+													<?php echo e(ucfirst($student_name_display['st_gender'])); ?>
 												</p>
 												<p> <strong>Date of Birth:</strong>
-													<?php echo ucfirst($student_name_display['st_dob']); ?>
+													<?php echo e(ucfirst($student_name_display['st_dob'])); ?>
 												</p>
 
 											</div>
@@ -123,25 +122,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<strong>Contact Details</strong>
 
 												<p> <strong>Address:</strong>
-													<?php echo ucfirst($student_name_display['st_address']); ?>
+													<?php echo e(ucfirst($student_name_display['st_address'])); ?>
 												</p>
 												<p> <strong>District:</strong>
-													<?php echo ucfirst($student_name_display['st_district']); ?>
+													<?php echo e(ucfirst($student_name_display['st_district'])); ?>
 												</p>
 												<p> <strong>Username:</strong>
-													<?php echo ucfirst($student_name_display['st_username']); ?>
+													<?php echo e(ucfirst($student_name_display['st_username'])); ?>
 												</p>
 											</div>
 											<div class="mediabox">
 												<strong>Parents Detail</strong>
 												<p><strong>Father Name: </strong>
-													<?php echo ucfirst($student_name_display['st_father']); ?>
+													<?php echo e(ucfirst($student_name_display['st_father'])); ?>
 												</p>
 												<p><strong>Mother Name: </strong>
-													<?php echo ucfirst($student_name_display['st_mother']); ?>
+													<?php echo e(ucfirst($student_name_display['st_mother'])); ?>
 												</p>
 												<p><strong>Parents Contact: </strong>
-													<?php echo ucfirst($student_name_display['st_parents_contact']); ?>
+													<?php echo e(ucfirst($student_name_display['st_parents_contact'])); ?>
 												</p>
 											</div>
 										</section>
@@ -150,33 +149,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											<div class="col-md-12">
 												<?php 
-												if(isset($_POST['change_password']))
-												{
-													
-													$prev_password = $student_name_display['st_password'];
-													$old_password = $_POST['old_password'];
-													
-													if($prev_password!=$old_password)
-													{ 
-														echo "<script>alert('Old Password Does not Matched');</script>";	
-													}
-													else
-													{
-														$st_username = $student_name_display['st_username'];
-													$st_password_update = $_POST['new_password'];
-														$update_success = $ravi->student_password_change($st_password_update,$st_username);
-														print_r($update_success);
-													
-													if($update_success==true)
-													{
-													echo "<script>window.location = 'home.php?success';</script>";
-													}
-														else
-														{
-															echo "<script>alert('cant update password');</script>";
+												if (isset($_POST['change_password'])) {
+													$old_password = app_post('old_password');
+													$new_password = app_post('new_password');
+
+													if ($old_password === '' || $new_password === '') {
+														echo "<script>alert('Please fill in both password fields.');</script>";
+													} elseif (strlen($new_password) < 8) {
+														echo "<script>alert('New password must be at least 8 characters long.');</script>";
+													} elseif ($old_password === $new_password) {
+														echo "<script>alert('Choose a different password from the current one.');</script>";
+													} elseif ($ravi->student_login_check($student_name_display['st_username'], $old_password) !== 1) {
+														echo "<script>alert('Old password did not match.');</script>";
+													} else {
+														$update_success = $ravi->student_password_change($new_password, $student_name_display['st_username']);
+
+														if ($update_success === true) {
+															echo "<script>alert('Password updated successfully.'); window.location = 'home.php';</script>";
+														} else {
+															echo "<script>alert('Unable to update the password right now.');</script>";
 														}
 													}
-													
 												}
 										
 												?>
@@ -224,10 +217,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																		<tr>
 																			<th scope="row"><?php echo $sn; ?></th>
 																			<td></td>
-																			<td><?php echo ucwords($t_info['t_fullname']); ?></td> 
-																			<td><?php echo ucwords($t_info['subject_name']); ?></td> 
-																			<td><?php echo strtolower($t_info['t_email']); ?></td> 
-																			<td><?php echo $t_info['time']; ?></td>
+																			<td><?php echo e(ucwords($t_info['t_fullname'])); ?></td> 
+																			<td><?php echo e(ucwords($t_info['subject_name'])); ?></td> 
+																			<td><?php echo e(strtolower($t_info['t_email'])); ?></td> 
+																			<td><?php echo e($t_info['time']); ?></td>
 																		</tr> 
 																		<?php $sn++; } ?>
 																	</tbody> 
@@ -263,8 +256,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																		<tr>
 																			<th scope="row"><?php echo $sn; ?></th>
 																		
-																			<td><?php echo ucwords($t_info['t_fullname']); ?></td> 
-																			<td><?php echo ucwords($t_info['subject_name']); ?></td> 
+																			<td><?php echo e(ucwords($t_info['t_fullname'])); ?></td> 
+																			<td><?php echo e(ucwords($t_info['subject_name'])); ?></td> 
 																			
 																		</tr> 
 																		<?php $sn++; } ?>
@@ -396,26 +389,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--/sidebar-menu-->
 		<div class="sidebar-menu">
 			<header class="logo">
-				<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="index.html"> <span id="logo"> <h1>Augment</h1></span> 
+				<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="home.php"> <span id="logo"> <h1>Augment</h1></span> 
 					<!--<img id="logo" src="" alt="Logo"/>--> 
 				  </a>
 			</header>
 			<div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
 			<!--/down-->
 			<div class="down">
-				<a href="index.html"><img src="images/admin.jpg"></a>
-				<a href="index.html"><span class=" name-caret"><?php echo $student_name_display['st_fullname']; ?></span></a>
+				<a href="home.php"><img src="images/admin.jpg" alt="Student"></a>
+				<a href="home.php"><span class=" name-caret"><?php echo e($student_name_display['st_fullname']); ?></span></a>
 				<p>Student</p>
 				<ul>
-					<li><a class="tooltips" href="index.html"><span>Profile</span><i class="lnr lnr-user"></i></a></li>
-					<li><a class="tooltips" href="index.html"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>
+					<li><a class="tooltips" href="home.php"><span>Profile</span><i class="lnr lnr-user"></i></a></li>
+					<li><a class="tooltips" href="home.php#section-2"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>
 					<li><a class="tooltips" href="logouts.php"><span>Log out</span><i class="lnr lnr-power-switch"></i></a></li>
 				</ul>
 			</div>
 			<!--//down-->
 			<div class="menu">
 				<ul id="menu">
-					<li><a href="index.html"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+					<li><a href="home.php"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
 
 			
 				

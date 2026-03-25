@@ -1,23 +1,21 @@
-<?php 
-
-
-
+<?php
+$currentPage = app_title_label(app_get('ravi'));
 ?>
 
 <div class="outter-wp">
 	<!--sub-heard-part-->
 	<div class="sub-heard-part">
 		<ol class="breadcrumb m-b-0">
-			<li><a href="index.html">Home</a></li>
+			<li><a href="home.php">Home</a></li>
 			<li class="active">
-				<?php if(isset($_GET['teacher'])){ echo strtoupper($page=$_GET['teacher']); } ?>
+				<?php echo e($currentPage); ?>
 			</li>
 		</ol>
 	</div>
 	<!--//sub-heard-part-->
 	<div class="graph-visual tables-main">
 		<h2 class="inner-tittle">
-			<?php echo strtoupper($_GET['teacher']); ?>
+			<?php echo e($currentPage); ?>
 		</h2>
 
 	
@@ -34,7 +32,7 @@
 							<th>Address</th>
 							<th>Email</th>
 							<th>U.Name</th>
-							<th>Pass</th>
+							<th>Password</th>
 							<th>Father</th>
 							<th>Mother</th>
 							<th>DOB</th>
@@ -60,41 +58,41 @@
 							</th>
 							<th></th>
 							<td>
-								<?php echo $teacher_info_admin['t_fullname']; ?>
+								<?php echo e($teacher_info_admin['t_fullname']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_address']; ?>
+								<?php echo e($teacher_info_admin['t_address']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_email']; ?>
+								<?php echo e($teacher_info_admin['t_email']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_username']; ?>
+								<?php echo e($teacher_info_admin['t_username']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_pass']; ?>
+								Protected
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_father']; ?>
+								<?php echo e($teacher_info_admin['t_father']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_mother']; ?>
+								<?php echo e($teacher_info_admin['t_mother']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_dob']; ?>
+								<?php echo e($teacher_info_admin['t_dob']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_qualification']; ?>
+								<?php echo e($teacher_info_admin['t_qualification']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_contact']; ?>
+								<?php echo e($teacher_info_admin['t_contact']); ?>
 							</td>
 							<td>
-								<?php echo $teacher_info_admin['t_gender']; ?>
+								<?php echo e($teacher_info_admin['t_gender']); ?>
 							</td>
 							<td>
 								
-				<a href="home.php?teacher=teacher-del&teacherid=<?php echo $teacher_info_admin['t_id']; ?>" class="btn red">Delete</a>
+				<a href="home.php?ravi=teacher-del&teacherid=<?php echo (int) $teacher_info_admin['t_id']; ?>" class="btn red" onclick="return confirm('Delete this teacher?');">Delete</a>
 					</td>
 						</tr>
 						<?php $t_sn++; } ?>
@@ -108,4 +106,3 @@
 
 	</div>
 	<!--//graph-visual-->
-

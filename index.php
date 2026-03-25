@@ -514,14 +514,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<?php
 	 include "setting/config.php";
 	$general = $ravi->general_setting_check();
-	if(is_array($general)){
-	$general_fetch = $general->fetch_assoc();
-	$general_numss = $general->num_rows;
-	}
-	else {
-		$general_numss=0;
-	}
-	if($general_numss>0)
+	$general_fetch = ($general && $general->num_rows > 0) ? $general->fetch_assoc() : null;
+	if($general_fetch)
 	{
 	?>
 <div id="mail" class="contact">
@@ -537,7 +531,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</div>
 				<div class="agile_contact_grid_right agilew3_contact">
 					<h4>Address</h4>
-					<p><?php echo $general_fetch['website_address']; ?></p>
+					<p><?php echo e($general_fetch['website_address']); ?></p>
 					<p>Nepal</p>
 				</div>
 			</div>
@@ -547,7 +541,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</div>
 				<div class="agile_contact_grid_right agileits_w3layouts_right">
 					<h4>Phone</h4>
-					<p><?php echo $general_fetch['website_phone1']; ?> <span><?php echo $general_fetch['website_phone2']; ?></span></p>
+					<p><?php echo e($general_fetch['website_phone1']); ?> <span><?php echo e($general_fetch['website_phone2']); ?></span></p>
 				</div>
 			</div>
 			<div class="col-md-4 col-xs-4 w3_agile_contact_grid">
@@ -556,8 +550,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</div>
 				<div class="agile_contact_grid_right agileits_w3layouts_right1">
 					<h4>Email</h4>
-					<p><a href="mailto:info@example.com"><?php echo $general_fetch['website_email1']; ?></a>
-						<span><a href="mailto:info@example.com"><?php echo $general_fetch['website_email2']; ?></a></span></p>
+					<p><a href="mailto:info@example.com"><?php echo e($general_fetch['website_email1']); ?></a>
+						<span><a href="mailto:info@example.com"><?php echo e($general_fetch['website_email2']); ?></a></span></p>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
@@ -598,7 +592,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="wthree_footer_grid_left">
 			<div class="col-md-3 col-xs-3 wthree_footer_grid_left1">
 				<h4>About Us</h4>
-				<p><?php echo $general_fetch['web_about']; ?></p>
+				<p><?php echo e($general_fetch['web_about']); ?></p>
 			</div>
 			<div class="col-md-3 col-xs-3 wthree_footer_grid_left1">
 				<h4>Navigation</h4>

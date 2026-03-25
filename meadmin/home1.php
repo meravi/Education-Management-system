@@ -5,7 +5,7 @@
 		<!--/tabs-inner-->
 		<div class="tab-inner">
 		<div id="tabs" class="tabs">
-		<h2 class="inner-tittle">Welcome, <?php echo $info_display['t_fullname']; ?>  </h2>
+		<h2 class="inner-tittle">Welcome, <?php echo e($info_display['t_fullname']); ?>  </h2>
 		<div class="graph">
 		<nav>
 		<ul>
@@ -21,31 +21,31 @@
 		<div class="mediabox">
 		<strong>Personal Information</strong>
 		<p>	<strong>Welcome,</strong>
-		<?php echo $info_display['t_fullname']; ?>
+		<?php echo e($info_display['t_fullname']); ?>
 		</p>
 		<p>	<strong>Qualification:</strong>
-		<?php echo $info_display['t_qualification']; ?>
+		<?php echo e($info_display['t_qualification']); ?>
 		</p>
 		<p>	<strong>Username:</strong>
-		<?php echo $info_display['t_username']; ?>
+		<?php echo e($info_display['t_username']); ?>
 		</p>
 		<p>	<strong>Gender:</strong>
-		<?php echo $info_display['t_gender']; ?>
+		<?php echo e($info_display['t_gender']); ?>
 		</p>
 		<p>	<strong>DOB:</strong>
-		<?php echo $info_display['t_dob']; ?>
+		<?php echo e($info_display['t_dob']); ?>
 		</p>
 		</div>
 		<div class="mediabox">
 		<strong>Contact Details</strong>
 		<p>	<strong>Phone:</strong>
-		<?php echo $info_display['t_contact']; ?>
+		<?php echo e($info_display['t_contact']); ?>
 		</p>
 		<p>	<strong>Email:</strong>
-		<?php echo $info_display['t_email']; ?>
+		<?php echo e($info_display['t_email']); ?>
 		</p>
 		<p>	<strong>Address:</strong>
-		<?php echo $info_display['t_address']; ?>
+		<?php echo e($info_display['t_address']); ?>
 		</p>	
 
 		</div>
@@ -53,10 +53,10 @@
 		<strong>Parents Detail</strong>
 
 		<p>	<strong>Father:</strong>
-		<?php echo $info_display['t_father']; ?>
+		<?php echo e($info_display['t_father']); ?>
 		</p>
 		<p>	<strong>Mother:</strong>
-		<?php echo $info_display['t_mother']; ?>
+		<?php echo e($info_display['t_mother']); ?>
 		</p>
 		</div>
 		</section>
@@ -73,7 +73,7 @@
 					<th>Address</th>
 					<th>Email</th>
 					<th>U.Name</th>
-					<th>Pass</th>
+					<th>Password</th>
 					<th>Father</th>
 					<th>Mother</th>
 					<th>DOB</th>
@@ -95,17 +95,17 @@
 				<tr>
 					<th scope="row"><?php echo $t_sn; ?></th>
 					<th></th>
-					<td><?php echo $teacher_info_admin['t_fullname']; ?></td>
-					<td><?php echo $teacher_info_admin['t_address']; ?></td>
-					<td><?php echo $teacher_info_admin['t_email']; ?></td>
-				<td><?php echo $teacher_info_admin['t_username']; ?></td>
-					<td><?php echo $teacher_info_admin['t_pass']; ?></td>
-					<td><?php echo $teacher_info_admin['t_father']; ?></td>
-					<td><?php echo $teacher_info_admin['t_mother']; ?></td>
-					<td><?php echo $teacher_info_admin['t_dob']; ?></td>
-					<td><?php echo $teacher_info_admin['t_qualification']; ?></td>
-					<td><?php echo $teacher_info_admin['t_contact']; ?></td>
-					<td><?php echo $teacher_info_admin['t_gender']; ?></td>
+					<td><?php echo e($teacher_info_admin['t_fullname']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_address']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_email']); ?></td>
+				<td><?php echo e($teacher_info_admin['t_username']); ?></td>
+					<td>Protected</td>
+					<td><?php echo e($teacher_info_admin['t_father']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_mother']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_dob']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_qualification']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_contact']); ?></td>
+					<td><?php echo e($teacher_info_admin['t_gender']); ?></td>
 				
 				</tr>
 		<?php $t_sn++; } ?>
@@ -137,9 +137,9 @@
 		{
 		?>					<tr> 
 					<th scope="row"><?php echo $sub_sn; ?></th> 
-					<td><?php echo ucfirst($display_subject_admin['subject_name']); ?></td> 
-					<td><?php echo $display_subject_admin['t_fullname']; ?></td> 
-					<td><?php echo $display_subject_admin['time']; ?></td> 
+					<td><?php echo e(ucfirst($display_subject_admin['subject_name'])); ?></td> 
+					<td><?php echo e($display_subject_admin['t_fullname']); ?></td> 
+					<td><?php echo e($display_subject_admin['time']); ?></td> 
 				</tr>
 				<?php
 		$sub_sn++;	}
@@ -167,10 +167,10 @@
 						<div class="form-group"> <input type="text" class="form-control" id="" name="new_username" placeholder="New UserName" required> </div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group"> <input type="text" class="form-control" id="" name="current_password" placeholder="Current Password" required> </div>
+						<div class="form-group"> <input type="password" class="form-control" id="" name="current_password" placeholder="Current Password" required> </div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group"> <input type="text" class="form-control" id="" name="new_password" placeholder="New Password" required> </div>
+						<div class="form-group"> <input type="password" class="form-control" id="" name="new_password" placeholder="New Password" required> </div>
 					</div>
 			
 			
@@ -185,22 +185,30 @@
 		</div>
 		</div>
 		<?php 
-	if(isset($_POST['update_admin_info'])){
-		$new_username = $_POST['new_username'];
-		$current_username = $_POST['current_username'];
-		$current_password = $_POST['current_password'];
-		$new_password = $_POST['new_password'];
-		$checkmatch = $ravi->meadmin_check($current_username,$current_password);
-		if($checkmatch){
-			$success = $ravi->meadmin_updatepassword($new_password,$new_username);
-			if($success){
-			echo "<script>alert('update success');</script>";
-			echo "<script>window.location='logouts.php';</script>";
+	if (isset($_POST['update_admin_info'])) {
+		$new_username = app_post('new_username');
+		$current_username = app_post('current_username');
+		$current_password = app_post('current_password');
+		$new_password = app_post('new_password');
+		$activeAdmin = isset($_SESSION['meadmin']) ? $_SESSION['meadmin'] : '';
+
+		if ($new_username === '' || $current_username === '' || $current_password === '' || $new_password === '') {
+			echo "<script>alert('Please complete every admin account field.');</script>";
+		} elseif ($current_username !== $activeAdmin) {
+			echo "<script>alert('Current username must match the logged-in admin account.');</script>";
+		} elseif (strlen($new_password) < 8) {
+			echo "<script>alert('New admin password must be at least 8 characters long.');</script>";
+		} elseif ($ravi->meadmin_check($current_username, $current_password) !== 1) {
+			echo "<script>alert('Current username or password did not match.');</script>";
+		} else {
+			$success = $ravi->meadmin_updatepassword($activeAdmin, $new_username, $new_password);
+
+			if ($success === true) {
+				$_SESSION['meadmin'] = $new_username;
+				echo "<script>alert('Admin account updated successfully.'); window.location='home.php';</script>";
+			} else {
+				echo "<script>alert('Unable to update the admin account. Check if the new username already exists.');</script>";
 			}
-			
-		}
-		else{
-			echo "<script>alert('Not matched Current Username or Password');</script>";
 		}
 	}
 	?>

@@ -1,56 +1,76 @@
-<?php 
+<?php
+if (isset($_POST['add_teacher_info'])) {
+    $add_t_fullname = app_post('add_t_fullname');
+    $add_t_address = app_post('add_t_address');
+    $add_t_email = app_post('add_t_email');
+    $add_t_username = app_post('add_t_username');
+    $add_t_pass = app_post('add_t_pass');
+    $add_t_father = app_post('add_t_father');
+    $add_t_mother = app_post('add_t_mother');
+    $add_t_dob = app_post('add_t_dob');
+    $add_t_qualification = app_post('add_t_qualification');
+    $add_t_contact = app_post('add_t_contact');
+    $add_t_staff = app_post('add_t_staff');
+    $add_t_gender = app_post('add_t_gender');
 
+    if (
+        $add_t_fullname === '' ||
+        $add_t_address === '' ||
+        $add_t_email === '' ||
+        $add_t_username === '' ||
+        $add_t_pass === '' ||
+        $add_t_father === '' ||
+        $add_t_mother === '' ||
+        $add_t_dob === '' ||
+        $add_t_qualification === '' ||
+        $add_t_contact === '' ||
+        $add_t_staff === '' ||
+        $add_t_gender === '' ||
+        $add_t_gender === 'Select Gender'
+    ) {
+        echo "<script>alert('Please complete every teacher field.');</script>";
+    } elseif (!filter_var($add_t_email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Please enter a valid teacher email address.');</script>";
+    } elseif (strlen($add_t_pass) < 8) {
+        echo "<script>alert('Teacher password must be at least 8 characters long.');</script>";
+    } else {
+        $add_done = $ravi->add_teacher(
+            $add_t_fullname,
+            $add_t_address,
+            $add_t_email,
+            $add_t_username,
+            $add_t_pass,
+            $add_t_father,
+            $add_t_mother,
+            $add_t_dob,
+            $add_t_qualification,
+            $add_t_contact,
+            $add_t_staff,
+            $add_t_gender
+        );
 
- if(isset($_POST['add_teacher_info']))
- {
-	 //$add_t_fullname,$add_t_address,$add_t_email,$add_t_username,$add_t_pass,$add_t_father,$add_t_mother,$add_t_dob,$add_t_qualification,$add_t_contact,$add_t_staff,$add_t_gender
-	  $add_t_fullname = $_POST['add_t_fullname'];
-	 $add_t_address = $_POST['add_t_address'];
-	 $add_t_email = $_POST['add_t_email'];
-	 $add_t_username = $_POST['add_t_username'];
-	 $add_t_pass = $_POST['add_t_pass'];
-	 $add_t_father = $_POST['add_t_father'];
-	 $add_t_mother = $_POST['add_t_mother'];
-	 $add_t_dob = $_POST['add_t_dob'];
-	 $add_t_qualification = $_POST['add_t_qualification'];
-	 $add_t_contact = $_POST['add_t_contact'];
-	 $add_t_staff = $_POST['add_t_staff'];
-	 $add_t_gender = $_POST['add_t_gender'];
-	 if($add_t_fullname=="" OR $add_t_address=="" OR $add_t_email=="" OR $add_t_username=="" OR $add_t_pass=="" OR $add_t_father=="" OR $add_t_mother=="" OR $add_t_dob=="" OR $add_t_qualification=="" OR $add_t_contact=="" OR $add_t_staff=="" OR $add_t_gender=="")
-	 {
-		 echo "<script>alert('Some Field are missing....');</script>";
-	 }
-	 else
-	 {
-	
-	 
-	 $add_done = $ravi->add_teacher($add_t_fullname,$add_t_address,$add_t_email,$add_t_username,$add_t_pass,$add_t_father,$add_t_mother,$add_t_dob,$add_t_qualification,$add_t_contact,$add_t_staff,$add_t_gender);
-	 if($add_done==true)
-	 {
-		 echo "<script>window.location='home.php?teacher=teacher-information';</script>";
-	 }
-	 else
-	 {
-		 echo "<script>alert('unsuccess add teacher information');</script>";
-	 }
- }
- }
-
+        if ($add_done === true) {
+            echo "<script>window.location='home.php?ravi=teacher-information';</script>";
+        } else {
+            echo "<script>alert('Unable to add the teacher. Check for duplicate usernames and try again.');</script>";
+        }
+    }
+}
 ?>
 <div class="outter-wp">
 	<!--sub-heard-part-->
 	<div class="sub-heard-part">
 		<ol class="breadcrumb m-b-0">
-			<li><a href="index.html">Home</a></li>
+			<li><a href="home.php">Home</a></li>
 			<li class="active">
-				<?php if(isset($_GET['ravi'])){ echo strtoupper($page=$_GET['ravi']); } ?>
+				<?php echo e(app_title_label(app_get('ravi'))); ?>
 			</li>
 		</ol>
 	</div>
 	<!--//sub-heard-part-->
 	<div class="graph-visual tables-main">
 		<h2 class="inner-tittle">
-			<?php echo strtoupper($_GET['ravi']); ?>
+			<?php echo e(app_title_label(app_get('ravi'))); ?>
 		</h2>
 
 		<div class="grid-1">
