@@ -1,46 +1,30 @@
-<?php 
-session_start();
-
-
+<?php
 include "../setting/config.php";
 
+app_session_start();
 
-
-if(isset($_POST['admin_signin']))
-{
-
-$admin_username = mysqli_real_escape_string($ravi->hackme(),$_POST['admin_username']);
-$admin_password = mysqli_real_escape_string($ravi->hackme(),$_POST['admin_password']);
-// echo $admin_username.' '.$admin_password ;
-if($admin_username=="" AND $admin_password=="")
-{
-echo "<script>alert('Enter Your Username & Password');</script>";
-}
-else
-{
-$melogin = $ravi->meadmin_check($admin_username,$admin_password);
-if($melogin==1)
-{
-$_SESSION['meadmin'] = 	$admin_username;
-header("location:home.php");
+if (isset($_SESSION['meadmin'])) {
+    app_redirect('home.php');
 }
 
+if (isset($_POST['admin_signin'])) {
+    $admin_username = app_post('admin_username');
+    $admin_password = app_post('admin_password');
 
-else
-{
-echo "<script>alert('Email Or Password does not matched');</script>";
+    if ($admin_username === '' || $admin_password === '') {
+        echo "<script>alert('Enter your username and password.');</script>";
+    } else {
+        $melogin = $ravi->meadmin_check($admin_username, $admin_password);
+
+        if ($melogin === 1) {
+            session_regenerate_id(true);
+            $_SESSION['meadmin'] = $admin_username;
+            app_redirect('home.php');
+        } else {
+            echo "<script>alert('Username or password did not match.');</script>";
+        }
+    }
 }
-
-}
-
-
-}
-
-if(isset($_SESSION['meadmin']))
-{
-header("location:home.php");
-}
-
 ?>
 <!--
 Author: W3layouts
@@ -92,8 +76,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													</ul>
 												</div>
 										<form method="post">
-<input type="text" class="text" name="admin_username" placeholder="Username" value="<?php if(isset($_POST['admin_signin'])){ echo $_POST['admin_username']; } ?>">
-<input type="password" placeholder="Password" name="admin_password" value="<?php if(isset($_POST['admin_signin'])){ echo $_POST['admin_password']; } ?>">
+<input type="text" class="text" name="admin_username" placeholder="Username" value="<?php echo isset($_POST['admin_signin']) ? e(app_post('admin_username')) : ''; ?>">
+<input type="password" placeholder="Password" name="admin_password">
 <div class="submit"><input type="submit" value="Login" name="admin_signin"></div>
 			<div class="clearfix"></div>
 												
@@ -112,7 +96,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!--footer section start-->
 				<div class="footer">
 						<div class="error-btn">
-									<a class="read fourth" href="index.html">Return to Home</a>
+									<a class="read fourth" href="../index.php">Return to Home</a>
 									</div>
 					<p>&copy 2016 Augment . All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">W3layouts.</a></p>
 				</div>

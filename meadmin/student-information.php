@@ -2,13 +2,13 @@
 									<!--sub-heard-part-->
 									  <div class="sub-heard-part">
 									   <ol class="breadcrumb m-b-0">
-											<li><a href="index.html">Home</a></li>
-											<li class="active"><?php if(isset($_GET['ravi'])){ echo strtoupper($page=$_GET['ravi']); } ?></li>
+											<li><a href="home.php">Home</a></li>
+											<li class="active"><?php echo e(app_title_label(app_get('ravi'))); ?></li>
 										</ol>
 									   </div>
 								  <!--//sub-heard-part-->
 									<div class="graph-visual tables-main">
-											<h2 class="inner-tittle"><?php echo strtoupper($_GET['ravi']); ?></h2>
+											<h2 class="inner-tittle"><?php echo e(app_title_label(app_get('ravi'))); ?></h2>
 												
 											<form method="post">
 								<select name="class_students_data" id="selector1" class="form-control1">
@@ -51,7 +51,7 @@
 																			<th>F.Name</th> 
 																			<th>Address</th>
 																			<th>U.Name</th>
-																			<th>Pass</th>
+																			<th>Password</th>
 																			<th>Father</th>
 																			<th>Mother</th>
 																			<th>DOB</th>
@@ -75,16 +75,16 @@
 														<tr>
 																	<td><?php echo $s_sn; ?></td>
 															<td></td>
-															<td><?php echo $student_info_admin['st_fullname']; ?></td>
-															<td><?php echo $student_info_admin['st_address']; ?></td>
-															<td><?php echo $student_info_admin['st_username']; ?></td>
-															<td><?php echo $student_info_admin['st_password']; ?></td>
-															<td><?php echo $student_info_admin['st_father']; ?></td>
-															<td><?php echo $student_info_admin['st_mother']; ?></td>
-															<td><?php echo $student_info_admin['st_dob']; ?></td>
-															<td><?php echo $student_info_admin['st_grade'] ?></td>
-															<td><?php echo $student_info_admin['st_parents_contact']; ?></td>
-															<td><?php echo $student_info_admin['st_gender']; ?></td>
+															<td><?php echo e($student_info_admin['st_fullname']); ?></td>
+															<td><?php echo e($student_info_admin['st_address']); ?></td>
+															<td><?php echo e($student_info_admin['st_username']); ?></td>
+															<td>Protected</td>
+															<td><?php echo e($student_info_admin['st_father']); ?></td>
+															<td><?php echo e($student_info_admin['st_mother']); ?></td>
+															<td><?php echo e($student_info_admin['st_dob']); ?></td>
+															<td><?php echo e($student_info_admin['st_grade']); ?></td>
+															<td><?php echo e($student_info_admin['st_parents_contact']); ?></td>
+															<td><?php echo e($student_info_admin['st_gender']); ?></td>
 																		</tr>
 																<?php $s_sn++; }} else {
 										 ?>

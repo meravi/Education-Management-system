@@ -1,0 +1,109 @@
+SET NAMES utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `exam_term` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `exam_term_name_unique` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `general_setting` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `website_name` VARCHAR(200) NOT NULL,
+  `website_address` VARCHAR(255) NOT NULL,
+  `website_phone1` VARCHAR(30) NOT NULL,
+  `website_phone2` VARCHAR(30) DEFAULT NULL,
+  `website_email1` VARCHAR(150) NOT NULL,
+  `website_email2` VARCHAR(150) DEFAULT NULL,
+  `website_start` VARCHAR(25) NOT NULL,
+  `web_about` TEXT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `meadmin` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `admin_username` VARCHAR(150) NOT NULL,
+  `admin_password` VARCHAR(255) NOT NULL,
+  `t_staff_type` VARCHAR(150) NOT NULL DEFAULT 'Admin',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `meadmin_username_unique` (`admin_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `result` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `student_name` VARCHAR(250) DEFAULT NULL,
+  `student_grade` VARCHAR(10) DEFAULT NULL,
+  `english` VARCHAR(250) DEFAULT NULL,
+  `english2` VARCHAR(250) DEFAULT NULL,
+  `math` VARCHAR(250) DEFAULT NULL,
+  `math2` VARCHAR(250) DEFAULT NULL,
+  `Social` VARCHAR(250) DEFAULT NULL,
+  `Health` VARCHAR(250) DEFAULT NULL,
+  `GK` VARCHAR(250) DEFAULT NULL,
+  `Computer` VARCHAR(250) DEFAULT NULL,
+  `Science` VARCHAR(250) DEFAULT NULL,
+  `Nepali` VARCHAR(250) DEFAULT NULL,
+  `first_term` VARCHAR(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `st_info` (
+  `st_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `st_fullname` VARCHAR(100) NOT NULL,
+  `st_username` VARCHAR(50) NOT NULL,
+  `st_password` VARCHAR(255) NOT NULL,
+  `st_grade` SMALLINT UNSIGNED NOT NULL,
+  `roll_no` SMALLINT UNSIGNED NOT NULL,
+  `st_dob` VARCHAR(30) NOT NULL,
+  `st_address` VARCHAR(150) NOT NULL,
+  `st_district` VARCHAR(100) NOT NULL,
+  `st_gender` VARCHAR(20) NOT NULL,
+  `st_father` VARCHAR(100) NOT NULL,
+  `st_mother` VARCHAR(100) NOT NULL,
+  `st_parents_contact` VARCHAR(30) NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`st_id`),
+  UNIQUE KEY `st_info_username_unique` (`st_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `subjects_info` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `subject_name` VARCHAR(150) NOT NULL,
+  `t_fullname` VARCHAR(150) NOT NULL,
+  `t_email` VARCHAR(150) NOT NULL,
+  `grade` VARCHAR(10) NOT NULL,
+  `time` VARCHAR(80) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `sub_class_name` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `subject` VARCHAR(100) NOT NULL,
+  `class` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `teacher_info` (
+  `t_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `t_fullname` VARCHAR(150) NOT NULL,
+  `t_address` VARCHAR(200) NOT NULL,
+  `t_email` VARCHAR(150) NOT NULL,
+  `t_username` VARCHAR(150) NOT NULL,
+  `t_pass` VARCHAR(255) NOT NULL,
+  `t_father` VARCHAR(150) NOT NULL,
+  `t_mother` VARCHAR(150) NOT NULL,
+  `t_dob` VARCHAR(50) NOT NULL,
+  `t_qualification` VARCHAR(800) NOT NULL,
+  `t_contact` VARCHAR(30) NOT NULL,
+  `t_staff_type` VARCHAR(50) NOT NULL,
+  `t_gender` VARCHAR(25) NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`t_id`),
+  UNIQUE KEY `teacher_username_unique` (`t_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

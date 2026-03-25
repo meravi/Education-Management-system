@@ -6,13 +6,13 @@
 	<div class="graph-form">
 		<div class="validation-form">
 			<!---->
-			<h2 align="center"><?php echo strtoupper($_GET['ravi']); ?></h2>
+			<h2 align="center"><?php echo e(app_title_label(app_get('ravi'))); ?></h2>
 			
 			
 			<?php 
 
 	$web_info_check = $ravi->general_setting_check();
-			$check_we = $web_info_check->num_rows;
+			$check_we = $web_info_check ? $web_info_check->num_rows : 0;
 	  if($check_we>0)
 	  {
 	  	echo "<script>window.location = 'home.php?ravi=edit-general-information';</script>";
@@ -21,16 +21,25 @@
 			{
  if(isset($_POST['add_general_setting']))
  {
-	 // $web_name,$web_address,$web_phone1,$web_phone2,$web_email1,$web_email2,$web_start,$web_about
-	 $web_name = $_POST['web_name'];
-	 $web_address = $_POST['web_address'];
-	 $web_phone1 = $_POST['web_phone1'];
-	 $web_phone2 = $_POST['web_phone2'];
-	 $web_email1 = $_POST['web_email1'];
-	 $web_email2 = $_POST['web_email2'];
-	 $web_start = $_POST['web_start'];
-	 $web_about = $_POST['web_about'];
-	 
+	 $web_name = app_post('web_name');
+	 $web_address = app_post('web_address');
+	 $web_phone1 = app_post('web_phone1');
+	 $web_phone2 = app_post('web_phone2');
+	 $web_email1 = app_post('web_email1');
+	 $web_email2 = app_post('web_email2');
+	 $web_start = app_post('web_start');
+	 $web_about = app_post('web_about');
+
+	 if($web_name==="" || $web_address==="" || $web_phone1==="" || $web_email1==="" || $web_start==="" || $web_about==="")
+	 {
+		 echo "<script>alert('Please complete all required website settings fields.');</script>";
+	 }
+	 elseif(!filter_var($web_email1, FILTER_VALIDATE_EMAIL) || ($web_email2 !== '' && !filter_var($web_email2, FILTER_VALIDATE_EMAIL)))
+	 {
+		 echo "<script>alert('Please enter valid email addresses for the website settings.');</script>";
+	 }
+	 else
+	 {
 	 	$web_info_success = $ravi->general_setting($web_name,$web_address,$web_phone1,$web_phone2,$web_email1,$web_email2,$web_start,$web_about);
 	 if($web_info_success==true)
 	 {
@@ -40,7 +49,7 @@
 	 else
 	 {
 		 echo "<script>alert('Please contact with devloper for fixing this problem or try later');</script>";
-	 }
+	 }}
 	  
 
 	 

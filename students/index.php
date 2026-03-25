@@ -1,37 +1,30 @@
-<?php 
-session_start();
+<?php
+include "../setting/config.php";
 
-if(@$_SESSION['st_user'])
-{
-	header("location:home.php");
-}
- include "../setting/config.php";
-if(isset($_POST['student_signin']))
-{
- $st_username = $_POST['st_username'];
-	
-	$st_password = $_POST['st_password']; 
-	
-	if($st_username=="" || $st_password=="")
-	{
-      echo "<script>alert('Please Fill Properly');</script>";
-	}
-	 else
-	 {
-	$go = $ravi->student_login_check($st_username,$st_password);
-	if($go==1)
-	{
-		$_SESSION['st_user'] = $st_username;
-		header("location:home.php");
-	}
-	else
-	{
-		echo "<script>alert('login failed');</script>";
-	}
-	 }
-	
+app_session_start();
+
+if (isset($_SESSION['st_user'])) {
+    app_redirect('home.php');
 }
 
+if (isset($_POST['student_signin'])) {
+    $st_username = app_post('st_username');
+    $st_password = app_post('st_password');
+
+    if ($st_username === '' || $st_password === '') {
+        echo "<script>alert('Please enter your username and password.');</script>";
+    } else {
+        $go = $ravi->student_login_check($st_username, $st_password);
+
+        if ($go === 1) {
+            session_regenerate_id(true);
+            $_SESSION['st_user'] = $st_username;
+            app_redirect('home.php');
+        } else {
+            echo "<script>alert('Login failed.');</script>";
+        }
+    }
+}
 ?>
 <!--
 Author: W3layouts
@@ -80,7 +73,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																			</ul>
 																		</div>
 																<form method="post">
-																		<input type="text" class="text" name="st_username" placeholder="Username">
+																		<input type="text" class="text" name="st_username" placeholder="Username" value="<?php echo isset($_POST['student_signin']) ? e(app_post('st_username')) : ''; ?>">
 																		<input type="password" placeholder="Password" name="st_password">
 																		<div class="submit"><input type="submit" value="Login" name="student_signin"></div>
 																		<div class="clearfix"></div>
@@ -104,7 +97,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										    <!--footer section start-->
 										<div class="footer">
 												<div class="error-btn">
-															<a class="read fourth" href="index.html">Return to Home</a>
+															<a class="read fourth" href="../index.php">Return to Home</a>
 															</div>
 										   <p>&copy 2016 Augment . All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">W3layouts.</a></p>
 										</div>

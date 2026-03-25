@@ -1,43 +1,58 @@
-<?php 
- 
- if(isset($_POST['std_add_now']))
- {
-	 // $std_fullname,$std_username,$std_password,$std_grade,$std_roll,$std_dob,$std_address,$std_district,$std_gender,$std_father,$std_mother,$std_parent_contact
-	 $std_fullname = $_POST['std_fullname'];
-	 $std_username = $_POST['std_username'];
-	 $std_password = $_POST['std_password'];
-	 $std_grade = $_POST['std_grade'];
-	 $std_roll = $_POST['std_roll'];
-	 $std_dob = $_POST['std_dob'];
-	 $std_address = $_POST['std_address'];
-	 $std_district = $_POST['std_district'];
-	 $std_gender = $_POST['std_gender'];
-	 $std_father = $_POST['std_father'];
-	 $std_mother= $_POST['std_mother'];
-	 $std_parent_contact = $_POST['std_parent_contact'];
-	 
-	 if($std_fullname=="" or $std_username=="" or $std_password=="" or $std_grade=="" or $std_gender=="" or $std_roll=="" or $std_dob=="" or $std_address=="" or $std_district=="" or $std_father=="" or $std_mother=="" or $std_parent_contact=="")
-	 {
-		 echo "<script>alert('please fill form and Add Student');</script>";
-	 }
-	 else
-	 {
-		 
-		 $add_student_done = $ravi->add_student($std_fullname,$std_username,$std_password,$std_grade,$std_roll,$std_dob,$std_address,$std_district,$std_gender,$std_father,$std_mother,$std_parent_contact);
-		 if($add_student_done==true)
-		 {
-			 echo "<script>window.location = 'home.php?ravi=student-information';</script>";
-		 }
-		 else
-		 {
-			 echo "<script>alert('contact with developer');</script>";
-		 }
-		 
-	 }
-	 
- }
+<?php
+if (isset($_POST['std_add_now'])) {
+    $std_fullname = app_post('std_fullname');
+    $std_username = app_post('std_username');
+    $std_password = app_post('std_password');
+    $std_grade = app_post('std_grade');
+    $std_roll = app_post('std_roll');
+    $std_dob = app_post('std_dob');
+    $std_address = app_post('std_address');
+    $std_district = app_post('std_district');
+    $std_gender = app_post('std_gender');
+    $std_father = app_post('std_father');
+    $std_mother = app_post('std_mother');
+    $std_parent_contact = app_post('std_parent_contact');
 
+    if (
+        $std_fullname === '' ||
+        $std_username === '' ||
+        $std_password === '' ||
+        $std_grade === '' ||
+        $std_gender === '' ||
+        $std_roll === '' ||
+        $std_dob === '' ||
+        $std_address === '' ||
+        $std_district === '' ||
+        $std_father === '' ||
+        $std_mother === '' ||
+        $std_parent_contact === ''
+    ) {
+        echo "<script>alert('Please complete every field before adding a student.');</script>";
+    } elseif (strlen($std_password) < 8) {
+        echo "<script>alert('Student password must be at least 8 characters long.');</script>";
+    } else {
+        $add_student_done = $ravi->add_student(
+            $std_fullname,
+            $std_username,
+            $std_password,
+            $std_grade,
+            $std_roll,
+            $std_dob,
+            $std_address,
+            $std_district,
+            $std_gender,
+            $std_father,
+            $std_mother,
+            $std_parent_contact
+        );
 
+        if ($add_student_done === true) {
+            echo "<script>window.location = 'home.php?ravi=student-information';</script>";
+        } else {
+            echo "<script>alert('Unable to add the student. Check for duplicate usernames and try again.');</script>";
+        }
+    }
+}
 ?>
 
 <div class="forms-main">
@@ -45,7 +60,7 @@
 	<div class="graph-form">
 		<div class="validation-form">
 			<!---->
-			<h2 align="center"><?php echo strtoupper($_GET['ravi']); ?></h2>
+			<h2 align="center"><?php echo e(app_title_label(app_get('ravi'))); ?></h2>
 			<form method="post">
 					<div class="col-md-12 form-group1 group-mail">
 					<label class="control-label">FullName</label>

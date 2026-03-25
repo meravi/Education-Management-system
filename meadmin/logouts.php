@@ -1,5 +1,8 @@
-<?php 
+<?php
+include "../setting/config.php";
 
- session_start();
+app_session_start();
+$_SESSION = array();
 session_destroy();
-header("location:../index.php");
+
+app_redirect('../index.php');
